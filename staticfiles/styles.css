@@ -1,0 +1,22 @@
+.table_chain, tr, td, th{
+    border: 1px black solid;
+}
+td, th {
+    text-align: center;
+}
+.table_chain {
+    width: 100%;
+}
+thead {
+    background-color: lightgray;
+}
+
+tr:hover > td {
+    background-color: yellow;
+}
+tr.positive_spread {
+    background-color: lightgreen;
+}
+tr.negative_spread {
+    background-color: red;
+}

@@ -1,0 +1,81 @@
+<div id="sd_main_container" class="container-fluid">
+    <div class="row">
+        <div>
+            Stock ticker: &nbsp;
+            <input id="input_symbol" value="{{ symbol }}">
+            <button id="button_symbol_update">Update</button>
+        </div>
+        <div style="width:40px;"></div>
+        <div>
+            Spread width: &nbsp;
+            <input type="range" min="0" max="50" step="1" value="0" id="input_shift_price" style="width:600px;">
+            <label id="label_shift_price">0</label>
+        </div>
+        <div style="width:40px;"></div>
+        <div>
+            Central Column: &nbsp;
+            <select id="select_central_column">
+                <option value="roi">ROI</option>
+                <option value="roidte">ROI/DTE</option>
+                <option value="profit">Profit</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+        <div id="div_chains" class="scrollmenu">{{ div_chains|safe }}</div>
+    </div>
+</div>
+<script>
+
+    function setup_hover (){
+        $(".bid_cell").hover(
+            function(){
+                x = $(".bid_cell_" + Number($(this).text())*100).parent();
+                x.addClass("highlighted_spread");
+                x.each(function(){
+                    $(this).attr("style", "");
+                })
+            }, function(){
+                x = $(".bid_cell_" + Number($(this).text())*100).parent();
+                x.removeClass("highlighted_spread");
+                x.each(function(){
+                    $(this).attr("style", $(this).attr("temp_style"));
+                })
+            }
+        )
+    }
+
+    $("#input_shift_price").change(function(){           
+        var shift_price = parseFloat($("#input_shift_price").val());
+        if (isNaN(shift_price)) return;
+        $("#label_shift_price").text(shift_price);
+
+        ajax_freeze();
+        $.ajax({
+            url: "sd_update_shift_price/",
+            type : "GET",
+            data: {
+                "shift_price": shift_price
+            },
+            dataType: "json",
+            success: function(data) {
+                $("#div_chains").html(data.div_chains);
+                setup_hover();
+                ajax_unfreeze($("#input_shift_price"));
+            }
+        })
+    })
+
+    $("#button_symbol_update").click(function(){
+        ajax_freeze();
+        $("#main_content").load("/spreads_discovery/", {"symbol": $("#input_symbol").val()}, function(){
+            ajax_unfreeze($("#input_shift_price"));
+        });
+    })
+
+    $(document).ready(setup_hover);
+
+</script>

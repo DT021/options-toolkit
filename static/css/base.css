@@ -1,0 +1,51 @@
+body {
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ajax_freeze {
+    opacity: 0.4;
+}
+
+/* below are for spreads_discovery */
+
+.table_chain, tr, td, th{
+    border: 1px black solid;
+}
+td, th {
+    text-align: center;
+}
+
+thead {
+    background-color: lightgray;
+}
+
+tr.highlighted_spread {
+    background-color: yellow;
+}
+
+tr.positive_spread {
+    background-color: lightgreen;
+}
+
+tr.negative_spread {
+    background-color: red;
+}
+
+div.scrollmenu {
+    overflow: auto;
+}
+div.scrollmenu div {
+    display: inline-block;
+    padding: 14px;
+    text-decoration: none;
+}
+td,th {
+    padding: 4px;
+}
+
+
+
+
