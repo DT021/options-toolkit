@@ -3,7 +3,7 @@ Simple tools that assist options trading and education.
 This project is under GNU GPL 3.0 license, in order to encourage learning, sharing, and collaboration.
 
 # Background
-I am neither a professional trader or a professional programmer. I am developing this toolkit because:
+I am neither a professional trader nor a professional programmer. I am developing this toolkit because:
 - I am interested in learning more about options, and developing an app would be an effective way to learn and put my knowledge into practice.
 - I would like to develop tools that suit the needs of my investment strategy, to complement, not in place of, other tools I am using (which is why this is project is a "toolkit" rather than a "solution." Also, building an app from the ground-up is also more practical.)
 - I would like to gain some programming skills so that I can develop apps that relate to my careers and other interests.
@@ -11,6 +11,6 @@ I am neither a professional trader or a professional programmer. I am developing
 - I would like to use this opportunity to communicate with people, get to know who they are and what they want, and even make friends.
 
 # Bugs & Bug Reports
-This project is constantly ongoing and will likely contain many bugs. Since the main objective of this project is education and experimentation, there is no need to worry about identifying and fixing every bug. If you have any concerns, please feel free to use the "Issues" feature on Github or contact me directly.
+This project is in the initial stage of development and will likely contain many bugs. Since the main objective of this project is education and experimentation, there is no need to worry about identifying and fixing every bug, unless the main functionalities of the app does not work. If you have any concerns, please feel free to use the "Issues" feature on Github or contact me directly.
 
 sam-at-hermeneuticlens-dot-com
