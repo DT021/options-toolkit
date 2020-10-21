@@ -7,7 +7,7 @@ from django.shortcuts import render
 import toolkit.download_data as dd
 import toolkit.utilities as utils
 
-def spreads_discovery(request):
+def load_main_view(request):
     global options_array
     
     # download data
@@ -42,7 +42,7 @@ def spreads_discovery(request):
         options_array.append({"Exp Date": exp_date, "Bids": bids_pandas, "Asks": asks_pandas})
 
     # Output
-    main_content = loader.get_template("spreads_discovery.html").render({"div_chains": get_chains(0), "symbol": symbol})
+    main_content = loader.get_template("SE_vertical_by_spread_width.html").render({"div_chains": get_chains(0), "symbol": symbol})
 
     if utils.is_ajax(request):
          return HttpResponse(main_content)

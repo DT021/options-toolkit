@@ -1,4 +1,4 @@
-<div id="sd_main_container" class="container-fluid">
+<div class="container-fluid">
     <div class="row">
         <div>
             Stock ticker: &nbsp;
@@ -55,7 +55,7 @@
 
         ajax_freeze();
         $.ajax({
-            url: "sd_update_shift_price/",
+            url: "update_shift_price/",
             type : "GET",
             data: {
                 "shift_price": shift_price
@@ -71,7 +71,7 @@
 
     $("#button_symbol_update").click(function(){
         ajax_freeze();
-        $("#main_content").load("/spreads_discovery/", {"symbol": $("#input_symbol").val()}, function(){
+        $("#main_content").load("", {"symbol": $("#input_symbol").val()}, function(){
             ajax_unfreeze($("#input_shift_price"));
         });
     })

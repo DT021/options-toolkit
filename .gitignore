@@ -1,2 +1,8 @@
 toolkit/credentials.py
 staticfiles/
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+*.bak 

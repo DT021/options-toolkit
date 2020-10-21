@@ -1,29 +1,17 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect
+from toolkit import download_data
 
-import toolkit.spreads_discovery as sd
-import toolkit.prices_by_expirations as pe
-import toolkit.utilities as utils
+#   Most pages have their own py files; views are rendered by urls.py directly calling
+#   functions in those files, without going through views.py. This file is for auxillary
+#   and development/testing rendering only.
 
 def index(request):
-    return redirect("spreads_discovery/")
+    return redirect("spreads_explorer/vertical_by_spread_width")
 
-def spreads_discovery(request):
-    return sd.spreads_discovery(request)
-
-def sd_update_shift_price(request):
-    return sd.update_shift_price(request)
-
-def prices_by_expirations(request):
-    return pe.prices_by_expirations(request)
-
-
-
-import toolkit.download_data as dd
-from django.http import HttpResponse
-from json2html import *
-
+from json2html import json2html
 def print_raw_data(request):
-    options_data = dd.get_options_data({
+    options_data = download_data.get_options_data({
         "symbol": "FSLY",
         "contractType": "PUT",
         "fromDate": "2020-11-30",

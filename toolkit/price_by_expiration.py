@@ -3,9 +3,9 @@ import plotly.graph_objs as go
 from django.http import JsonResponse
 from django.template import loader
 
-import toolkit.download_data as dd
+import toolkit as tk
 
-def prices_by_expirations(request):
+def load_main_view(request):
 
     dd.get_options_data({
         "symbol": "FSLY",
