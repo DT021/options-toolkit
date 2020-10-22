@@ -125,6 +125,7 @@ def get_plot():
         fig.add_trace(go.Scatter(x=data["Exp Date"], y=data["ROI"],
                      mode='lines+markers', name=strike))
     fig.layout["height"] = 1000
+    fig.layout["width"]= 1400
     return plotly.offline.plot(fig, output_type='div', include_plotlyjs=False)
 
 def float_to_html (data):

@@ -38,10 +38,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-3" style="text-align:center;">
-            <div id="div_chains" class="scrollmenu">{{ div_chains|safe }}</div>
+        <div class="col-12 scrollmenu" style="text-align:center;" id="div_chains" >
+            {{ div_chains|safe }}
         </div>
-        <div class="chart" id="div_plot">
+        <div class="chart" id="div_plot" style="display:none;">
             {{ div_plot|safe }}
         </div>
     </div>
@@ -105,6 +105,18 @@
         $("#main_content").load("", {"symbol": $("#input_symbol").val()}, function(){
             ajax_unfreeze($("#input_shift_price"));
         });
+    })
+
+    $("#button_toggle_graph").click(function(){
+        if($("#div_plot").css("display") == "none"){
+            $("#div_chains").removeClass("col-12");
+            $("#div_chains").addClass("col-3");
+            $("#div_plot").css("display", "block");
+        } else {
+            $("#div_chains").removeClass("col-3");
+            $("#div_chains").addClass("col-12");
+            $("#div_plot").css("display", "none");
+        }
     })
 
     $(document).ready(function(){
