@@ -13,7 +13,7 @@ I am neither a professional trader nor a professional programmer (please don't j
 # Methodology
 The purpose of building a toolkit is to explore specific cases where data visualization and investment strategy come together. There are plenty of apps available that present all the data on a screen, and there is no need for me to reinvent the wheel. Instead, I would like to create a collection of small, highly-purposed tools where data presentations are not only helpful to investors but also highly tailored to particular investment strategies. In other words, what data is presented on the screen in a given tool is highly determined by how the data will be used by the investors for a certain task within a broader strategy.
 
-For example, if one is interested in put credit spreads, instead of displaying all the information available (all the greeks, all hypothetical P/Ls, etc.), this app will display exactly what one needs to make a specific decision, such as finding the most profitable spread divided by days to expiration. Other data secondary to this primary goal will be presented only when needed.
+For example, if one is interested in put credit spreads, instead of displaying all the information available (all the greeks, all hypothetical P/Ls, etc.), this app will display exactly what one needs to make a specific decision, such as finding the most profitable spread divided by days to expiration. Other data secondary to this primary goal will be presented only when they are needed.
 
 # Contribute
 Any contribution is appreciated, whether it's coding, testing, or general suggestions/recommendations regarding investing strategies, data visualizations, backend/frontend packages, and UI/UX.
@@ -23,6 +23,6 @@ Any contribution is appreciated, whether it's coding, testing, or general sugges
 You will need to install Django and related packages. I have not set up a virtual running environment yet. This app uses TD Ameritrade API, so you will need to register your own developer account, and add a toolkit/credentials.py (it's on the .gitignore list) with the API key assigned to the "CLIENT_ID" const.
 
 # Bugs & bug reports
-This project is in the initial stage of development and will likely contain many bugs. Since the main objective of this project is education and experimentation, there is no need to worry about identifying and fixing every bug, unless the main functionalities of the app does not work. If you have any concerns, please feel free to use the "Issues" feature on Github or contact me directly.
+This project is in the initial stage of development and will likely contain many bugs. Since the main objective of this project is education and experimentation, there is no need to worry about identifying and fixing every bug, unless the main functionalities of the app fail to work at all. If you have any concerns, please feel free to use the "Issues" feature on Github or contact me directly.
 
 Please feel free to contact me at sam-at-hermeneuticlens-dot-com
