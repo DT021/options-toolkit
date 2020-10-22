@@ -9,7 +9,7 @@ body {
     opacity: 0.4;
 }
 
-/* below are for spreads_discovery */
+/* below are for spread_explorer */
 
 .table_chain, tr, td, th{
     border: 1px black solid;
@@ -45,7 +45,6 @@ div.scrollmenu div {
 td,th {
     padding: 4px;
 }
-
 
 
 

@@ -14,16 +14,22 @@
     <meta name="csrf_token" content="{{ csrf_token }}">
 
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <a class="navbar-brand">Options Toolkit</a>
             <div id="nav_loading_indicator" style="margin-right: 10px; visibility: hidden;" class="spinner-border text-light" role="status"></div>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Spreads Discovery</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Spread Explorer
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Vertical Spread, By Spread Width</a>
+                            <a class="dropdown-item" href="#">Vertical Spread, By One Leg</a>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Graph Prices By Expiration</a>
+                        <a class="nav-link" href="#">Graph Price By Expiration</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

@@ -1,79 +1,69 @@
-import json, pandas, numpy, plotly, math, requests
+import json, pandas, numpy, plotly, math, requests, re
 import plotly.graph_objs as go
 from django.http import JsonResponse, HttpResponse
 from django.template import loader
 from django.shortcuts import render
 
-import toolkit.download_data as dd
-import toolkit.utilities as utils
+from toolkit import download_data, utilities
 
 def load_main_view(request):
     global options_array
     
-    # download data
-    if utils.is_ajax(request):
+    ### download data
+    if utilities.is_ajax(request):
         symbol = request.POST.get("symbol", None)
     else:
         symbol = None
     if symbol is None: symbol = "FSLY"
 
-    options_data = dd.get_options_data({
+    options_array = download_data.get_options_data_pandas({
         "symbol": symbol,
         "contractType": "PUT"
-    }).json()
+    })
 
-    # format data to pandas
-    current_price = float(options_data["underlyingPrice"])
-    options_array = []
-    for exp_date, prices in options_data["putExpDateMap"].items():
-        bids_pandas = pandas.DataFrame(columns={ "Strike Price": float,"Bid": float })
-        asks_pandas = pandas.DataFrame(columns={ "Strike Price": float,"Ask": float })
-        for _, value in prices.items():
-            # price filter criteria 
-            if value[0]["strikePrice"] < current_price * 0.9 and value[0]["strikePrice"] > current_price * 0.3: 
-                bids_pandas = bids_pandas.append({
-                    "Strike Price": float(value[0]["strikePrice"]),
-                    "Bid": float(value[0]["bid"])
-                }, ignore_index=True)
-                asks_pandas = asks_pandas.append({
-                    "Strike Price": float(value[0]["strikePrice"]), 
-                    "Ask": float(value[0]["ask"])
-                }, ignore_index=True)
-        options_array.append({"Exp Date": exp_date, "Bids": bids_pandas, "Asks": asks_pandas})
+    ### generate chains and plot
+    div_chains = get_chains(0)
 
-    # Output
-    main_content = loader.get_template("SE_vertical_by_spread_width.html").render({"div_chains": get_chains(0), "symbol": symbol})
+    ### output
+    main_content = loader.get_template("SE_vertical_by_spread_width.html").render({
+        "div_chains": div_chains,
+        "symbol": symbol,
+        "div_plot": get_plot()
+    })
 
-    if utils.is_ajax(request):
+    if utilities.is_ajax(request):
          return HttpResponse(main_content)
     return render(request, "base.html", {
         "main_content": main_content
     })
 
-"""
-def get_plot():
-    global bids_pandas, asks_pandas, asks_pandas_shifted
-    div_plot = get_options_plotly_div(
-                    bids_pandas.transpose().to_dict('split')["data"],
-                    asks_pandas_shifted.transpose().to_dict("split")["data"])
-    return div_plot
-"""
-
+### handle shift price ajax update
 def update_shift_price(request):
     shift_price = int(request.GET.get('shift_price', None))
+    div_chains = get_chains(shift_price)
     return JsonResponse({
-        "div_chains": get_chains(shift_price)
+        "div_chains": div_chains,
+        "div_plot": get_plot()
     })
 
+### print spread chains
 def get_chains(shift_price):
-    global options_array
+    global options_array, plot_data, fig
+    
+    ### initialize plot
+    plot_data = {}
+    fig = go.Figure()
+
     output_chains = ""
     for options_item in options_array:
         output_chains += "<div>Expiration Date: " + options_item["Exp Date"] + "<br>" \
-            + get_chain(options_item["Bids"], options_item["Asks"], shift_price) + "</div>"
+            + get_chain(options_item["Exp Date"], options_item["Bids"], options_item["Asks"], shift_price) + "</div>"
     return output_chains
 
-def get_chain(bids_pandas, asks_pandas, shift_price):
+### print spread chain unit
+def get_chain(exp_date, bids_pandas, asks_pandas, shift_price):
+    global plot_data
+
     asks_pandas_shifted = pandas.DataFrame(columns={
         "Strike Price": float,
         "Ask": float,
@@ -83,6 +73,11 @@ def get_chain(bids_pandas, asks_pandas, shift_price):
     asks_pandas_shifted["Ask Original Strike"] = asks_pandas_shifted["Strike Price"]
     if shift_price is not 0: asks_pandas_shifted["Strike Price"] += float(shift_price)
 
+    combined_pandas = asks_pandas_shifted.join(bids_pandas.set_index("Strike Price"), on="Strike Price", how="outer")
+    combined_pandas.sort_values(by=["Strike Price"], ascending=False, inplace=True)
+    
+    ### Generate Chains
+    ### TODO: replace the following section with Django HTML template
     str_chain = """
         <table>
             <thead>
@@ -95,9 +90,7 @@ def get_chain(bids_pandas, asks_pandas, shift_price):
                 </tr>
             </thead>
             <tbody>"""
-    combined_pandas = bids_pandas.join(asks_pandas_shifted.set_index("Strike Price"), on="Strike Price", how="outer")
-    combined_pandas.sort_values(by=["Strike Price"], ascending=False, inplace=True)
-    
+
     for _, row in combined_pandas.iterrows():
         spread_diff = row["Bid"] - row["Ask"]
 
@@ -110,20 +103,29 @@ def get_chain(bids_pandas, asks_pandas, shift_price):
                 <td>" + float_to_html(row["Ask"]) + "</td> \
                 <td>" + float_to_html(row["Ask Original Strike"]) + "</td> \
             </tr>"
+
+            ### Store data for plot
+            ### 1. find whether the spread is already there.
+            spread_name = float_to_html(row["Strike Price"]) + "/" + float_to_html(row["Ask Original Strike"])
+            x = plot_data.get(spread_name)
+            if x is None:
+                plot_data[spread_name] = {
+                    "Exp Date": [re.search(r"\d*-\d*-\d*", exp_date).group(0)],
+                    "ROI": [spread_diff]
+                }
+            else:
+                plot_data[spread_name]["Exp Date"].append(re.search(r"\d*-\d*-\d*", exp_date).group(0))
+                plot_data[spread_name]["ROI"].append(spread_diff)
+
     return str_chain + "</tbody></table>"
 
-"""
-def get_options_plotly_div(bids_array, asks_array):
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=bids_array[0], y=bids_array[1],
-                     mode='lines', name='Bid',
-                     opacity=1, marker_color='red'))
-    fig.add_trace(go.Scatter(x=asks_array[0], y=asks_array[1],
-                     mode='lines', name='Ask',
-                     opacity=1, marker_color='blue'))
-    fig.layout["height"] = 780
-    return plotly.offline.plot(fig, output_type='div', include_plotlyjs=False);
-"""
+def get_plot():
+    global fig, plot_data
+    for strike, data in plot_data.items():
+        fig.add_trace(go.Scatter(x=data["Exp Date"], y=data["ROI"],
+                     mode='lines+markers', name=strike))
+    fig.layout["height"] = 1000
+    return plotly.offline.plot(fig, output_type='div', include_plotlyjs=False)
 
 def float_to_html (data):
     if math.isnan(data):

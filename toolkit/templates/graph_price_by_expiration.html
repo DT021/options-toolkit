@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1">
+            <table style="width:100px;">
+                {% for strike_price in all_strikes %}
+                    <tr><td> {{ strike_price }} </td></tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-11">
+            {{ div_plot|safe }}
+        </div>
+    </div>
+</div>
+<script>
+    // this is still a demo.
+    $(document).ready(function(){
+        x = $("td").each(function(){
+            if( parseFloat($(this).text()) % 5 == 0){
+                $(this).css("background-color", "yellow");
+            }
+        })
+    })
+</script>

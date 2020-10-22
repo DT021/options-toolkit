@@ -11,7 +11,7 @@ def index(request):
 
 from json2html import json2html
 def print_raw_data(request):
-    options_data = download_data.get_options_data({
+    options_data = download_data.get_options_data_raw({
         "symbol": "FSLY",
         "contractType": "PUT",
         "fromDate": "2020-11-30",

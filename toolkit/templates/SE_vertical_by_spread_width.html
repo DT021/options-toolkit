@@ -1,3 +1,16 @@
+<style>
+    table {
+        width: 400px;
+    }
+    .chart {
+        top:100px;
+        position: fixed;
+        top: 150px;
+        right: 50px;
+        left: 550px;
+        bottom: 100px;
+    }
+</style>
 <div class="container-fluid">
     <div class="row">
         <div>
@@ -20,31 +33,47 @@
                 <option value="profit">Profit</option>
             </select>
         </div>
+        <div style="position:absolute; right:40px;">
+            <button id="button_toggle_graph">Plot</button>
+        </div>
     </div>
     <div class="row">
-        &nbsp;
-    </div>
-    <div class="row">
-        <div id="div_chains" class="scrollmenu">{{ div_chains|safe }}</div>
+        <div class="col-3" style="text-align:center;">
+            <div id="div_chains" class="scrollmenu">{{ div_chains|safe }}</div>
+        </div>
+        <div class="chart" id="div_plot">
+            {{ div_plot|safe }}
+        </div>
     </div>
 </div>
 <script>
 
+    var div_plot_storage;
+
     function setup_hover (){
         $(".bid_cell").hover(
             function(){
+                // update chain highlight
+                x = $(".highlighted_spread")
+                x.removeClass("highlighted_spread");
+                    x.each(function(){
+                        $(this).attr("style", $(this).attr("temp_style"));
+                })
+
                 x = $(".bid_cell_" + Number($(this).text())*100).parent();
                 x.addClass("highlighted_spread");
                 x.each(function(){
                     $(this).attr("style", "");
                 })
-            }, function(){
-                x = $(".bid_cell_" + Number($(this).text())*100).parent();
-                x.removeClass("highlighted_spread");
-                x.each(function(){
-                    $(this).attr("style", $(this).attr("temp_style"));
-                })
-            }
+
+                // update div_plot highlight
+                result = div_plot_storage.search("\"name\": \"" + $(this).text());
+                if(result != -1){
+                    div_plot_temporary = div_plot_storage.slice(0, result) + "line: {width: 6}, marker:{size:12}," + div_plot_storage.slice(result);
+                }
+                $("#div_plot").html(div_plot_temporary);
+
+            }, null
         )
     }
 
@@ -63,6 +92,8 @@
             dataType: "json",
             success: function(data) {
                 $("#div_chains").html(data.div_chains);
+                div_plot_storage = data.div_plot;
+                $("#div_plot").html(data.div_plot);
                 setup_hover();
                 ajax_unfreeze($("#input_shift_price"));
             }
@@ -76,6 +107,9 @@
         });
     })
 
-    $(document).ready(setup_hover);
+    $(document).ready(function(){
+        setup_hover();
+        $("#input_shift_price").focus();
+    });
 
 </script>
