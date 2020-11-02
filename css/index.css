@@ -1,0 +1,81 @@
+body {    
+    color: #ccc;
+    background-color: #222;
+    font-family: "Segoe UI";
+    font-size: 13px;
+    zoom: 1;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    user-select: none;
+}
+
+/*---------------------------titlebar ------------------------*/
+
+
+.menubar {
+    background-image: linear-gradient(to right, #333 40%, #666 50%, #333 60%);
+    background-size: 250% 100%; /* css trick https://www.scottcole.net/animating-linear-gradient-button-links/ */
+    color: #aaa;
+    display: flex;
+    height: 30px;
+    line-height: 30px;
+    justify-content: space-between;
+}
+
+.menubar_loading {
+    animation-name: menubar_loading_animation;
+    animation-delay: 0.2s;
+    animation-duration: 0.8s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes menubar_loading_animation {
+    0% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.window_sys_control {
+    display: flex;
+}
+
+.menu_container {
+    display: none;
+}
+
+.menu_item {
+    padding: 0px 8px 0px 8px;
+}
+
+.titlebar_draggable {
+    -webkit-app-region: drag;
+    flex-grow: 1;
+}
+
+.menu_item, [class^="codicon-chrome-"] {
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.menu_item:hover, [class^="codicon-chrome-"]:hover {
+    background-color: #555;
+    color: #ccc;
+    transition: background-color 0.1s, color 0.1s;
+}
+
+[class^="codicon-chrome-"] {
+    font-family: "codicon";
+    font-size: 16px;
+    padding: 1px 16px 0px 16px;
+}
+
+
+/* ---------------------------panels -----------------------*/
+.main_view {
+    display: flex;
+    justify-content: space-between;
+    border-width: 0px 2px 2px 2px;
+    border-color: #333;
+    border-style: solid;
+    height: calc(100vh - 35px);
+}

@@ -1,3 +1,5 @@
+**Latest update**: I have moved existing python codes to the "legacy_python" folder, as I am moving this project toward the nodejs / electron platform. This way, the app runs locally, and people can use test out this app by using their own market data provider.
+
 # options-toolkit
 Simple tools that assist options trading and education.
 This project is under GNU GPL 3.0 license, in order to encourage learning, sharing, and collaboration.
@@ -20,7 +22,7 @@ Any contribution is appreciated, whether it's coding, testing, or general sugges
 
 ## Testing on your own device
 
-You will need to install Django and related packages. I have not set up a virtual running environment yet. This app uses TD Ameritrade API, so you will need to register your own developer account, and add a toolkit/credentials.py with the API key assigned to the "CLIENT_ID" const. For other files you need, see .gitignore.
+This package runs locally and retrieves data via your own Market Data API. Right now, only TD Ameritrade is supported. The API key will be stored locally in cache and will not be used or upload anywhere other than downloading data from the data provider(s).
 
 # Bugs & bug reports
 This project is in the initial stage of development and will likely contain many bugs. Since the main objective of this project is education and experimentation, there is no need to worry about identifying and fixing every bug, unless the main functionalities of the app fail to work at all. If you have any concerns, please feel free to use the "Issues" feature on Github or contact me directly.

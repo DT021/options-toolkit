@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Options Toolkit</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+
+    <script>window.$ = window.jQuery = require('jquery');</script>
+
+    <link rel="stylesheet" href="../fonts/remixicon/remixicon.css">
+    <link rel="stylesheet" href="../fonts/codicon/codicon.css">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+    <div class="body_wrapper">
+        <div class="titlebar">
+            <div class="menubar">
+                <div class="menu_container">
+                    <div style="padding-left: 8px;"> </div>
+                    <div class="menu_item" id="menubar_item_settings">Spread Explorer</div>
+                    <div class="menu_item" id="menubar_item_settings">Graph Prices By Exp Dates</div>
+                    <div class="menu_item" id="menubar_itmm_toggle_dev">Toggle Dev</div>
+                </div>
+                <div class="titlebar_draggable">
+                </div>
+                <div class="window_sys_control">
+                    <div class="codicon-chrome-minimize"></div>
+                    <div class="codicon-chrome-maximize"></div>
+                    <div class="codicon-chrome-close"></div>
+                </div>
+            </div>
+        </div>
+        <div class="main_view">
+        </div>
+    </div>
+    <script type="module" src="../js/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<div class="welcome_panel">
+    <div class="welcome_panel_container">
+        <div style="font-size:x-large;">Welcome!</div>
+        <div>Please set up your market data source to begin.</div>
+        <div class="welcome_column">
+            <div>Your Data Provider</div>
+            <div><select id="data_provider">
+                <option value="tda">TD Ameritrade (developer.tdameritrade.com)</option>
+              </select></div>
+        </div>
+        <div class="welcome_column">
+            <div>Your API Key</div>
+            <div><input></div>
+        </div>
+        <div style="text-align: center">Connect</div>
+    </div> 
+
+
+<style>
+    .welcome_panel {
+        display: flex;
+        flex: 1;
+        align-self: stretch;
+        align-content: stretch;
+        justify-content: center;
+        align-items: center;
+    }
+    .welcome_panel_container {
+        display: flex;
+        flex-direction: column;
+    }
+    .welcome_column {
+        display: flex;
+    }
+
+    .welcome_panel_container > div {
+        padding: 5px;
+    }
+</style>
+<script type="module" src="../js/welcome.js"></script>
+</div>
